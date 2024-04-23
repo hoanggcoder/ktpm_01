@@ -62,4 +62,4 @@ Remove this file if there is no X server c9c0a1d930f5:1
 **Bước 4: Kết nối sử dụng VNC Viewer**
 
 Ta sẽ kết nối đến cổng ```127.0.0.1:8888``` như đã config ở các bước trước đây
-
+![alt text](<proof.png>)
