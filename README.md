@@ -21,4 +21,45 @@ Docker - compose được cung cấp bởi Docker nhằm giúp người dùng t�
 - VNC (Virtual Network Computing) là một hệ thống giúp điều khiển thiết bị công nghệ từ xa dựa trên kết nối mạng. Có thể truy cập máy tính từ xa, chia sẻ màn hình, điều khiển chuột, bàn phím.
 - VNC hoạt động trên một mô hình server / client. VNC Server được cài đặt trên máy tính cần điều khiển và máy tính cần sử dụng để điều khiển
 - Về mặt công nghệ phía dưới, nó khác với TeamViewer
-## II. Bài tập thực hành
+## II. Bài tập thực hành (Bổ sung)
+**Bước 1: Xây dựng image từ Dockerfile**
+
+Trước tiên, mở terminal và điều hướng đến thư mục chứa Dockerfile của bạn. Sau đó, chạy lệnh sau để xây dựng image:
+
+```docker docker build -t your-image-name .```
+
+Trong đó, ```your-image-name``` là tên mà bạn muốn đặt cho image Docker của mình. Dấu chấm (.) cuối cùng trong lệnh nói cho Docker biết bạn muốn xây dựng image từ Dockerfile trong thư mục hiện tại.
+
+
+**Bước 2: Chạy container từ image**
+
+Sau khi bạn đã xây dựng image, bạn có thể chạy một container từ image đó bằng cách sử dụng lệnh docker run, ở đây mình sẽ ánh xạ cổng, cụ thể là ánh xạ cổng 8888 của máy chủ của bạn đến cổng 5901 của container, bạn có thể chạy lệnh sau:
+
+```docker run -it -p 8888:5901 your-image-name```
+
+
+**Bước 3: Khởi tạo và chạy vncserver**
+
+Đầu tiên chúng ta phải vào container bằng lệnh:
+
+```docker exec -u 0 -it container_id_or_name /bin/bash```
+
+Sau khi đã vào được container, ta chạy lệnh sau để set user:
+
+```export USER=root```
+
+Sau đó vì phần vncserver đã được cài đặt và set password trước trong Dockerfile, nên ở đây chúng ta sẽ chỉ cần chạy VNC server bằng lệnh:
+
+```vncserver```
+
+Nếu xuất hiện log tương tự như sau:
+```
+Warning: c9c0a1d930f5:1 is taken because of /tmp/.X1-lock
+Remove this file if there is no X server c9c0a1d930f5:1
+```
+Đơn giản sẽ chỉ cần xóa file ```.X1-lock``` bằng lệnh: ```rm /tmp/.X1-lock``` và reset lại VNC server là có thể đến bước tiếp theo.
+
+**Bước 4: Kết nối sử dụng VNC Viewer**
+
+Ta sẽ kết nối đến cổng ```127.0.0.1:8888``` như đã config ở các bước trước đây
+
